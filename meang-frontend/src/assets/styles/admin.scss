@@ -4,7 +4,9 @@
  * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-simple-sidebar/blob/master/LICENSE)
  */
 
-#wrapper {
+@import "./colors.scss";
+
+body {
   overflow-x: hidden;
 }
 

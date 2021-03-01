@@ -1,0 +1,17 @@
+<div class="border-right" id="sidebar-wrapper">
+  <div class="sidebar-heading">
+    <a [routerLink]="['/home']">MEANG Shop</a>
+  </div>
+  <div class="list-group list-group-flush">
+    <a
+      [routerLink]="['/admin']"
+      class="list-group-item list-group-item-action bg-light"
+      ><fa-icon [icon]="faColumns"></fa-icon> Dashboard</a
+    >
+    <a
+      [routerLink]="['/admin/users']"
+      class="list-group-item list-group-item-action bg-light"
+      ><fa-icon [icon]="faIdCard"></fa-icon> Users</a
+    >
+  </div>
+</div>

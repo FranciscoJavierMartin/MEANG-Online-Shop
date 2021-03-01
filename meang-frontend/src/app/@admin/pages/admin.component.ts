@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss']
+  styleUrls: ['./admin.component.scss'],
 })
-export class AdminComponent implements OnInit {
+export class AdminComponent {
 
-  constructor() { }
+  toggledValue: boolean = true;
 
-  ngOnInit(): void {
+  constructor() {}
+
+  toggled($event: boolean) {
+    this.toggledValue = $event;
   }
-
 }
