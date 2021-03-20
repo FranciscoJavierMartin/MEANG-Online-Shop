@@ -657,6 +657,15 @@
     tslib "~2.1.0"
     unixify "1.0.0"
 
+"@graphql-tools/load-files@^6.3.1":
+  version "6.3.1"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/load-files/-/load-files-6.3.1.tgz#7d7726fcb53924ad0cfbdf3f86e7c376abf70c8e"
+  integrity sha512-y/qGcuKWW3mSPbIHEN5csM9xM0ow479NqtEOPeC1i9wqLml82ubaPS8BzXMhB8DJa5XmrGzIZvrt03CBkQ4aJA==
+  dependencies:
+    globby "11.0.2"
+    tslib "~2.1.0"
+    unixify "1.0.0"
+
 "@graphql-tools/load@^6.2.5":
   version "6.2.7"
   resolved "https://registry.yarnpkg.com/@graphql-tools/load/-/load-6.2.7.tgz#61f7909d37fb1c095e3e8d4f7a6d3b8bb011e26a"
@@ -2465,6 +2474,11 @@ graphql-import-node@^0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/graphql-import-node/-/graphql-import-node-0.0.4.tgz#0522f058978c7e1b99d1e6be1b851ee17007b111"
   integrity sha512-okpdABQIgIM0qdx9Mfgdu6fTsFEazZmHZdEU34cijkUj9D1db1SyPRGHPxbXmbacamhEF41ckxpCAgHiGliryQ==
+
+graphql-merge-resolvers@^1.1.16:
+  version "1.1.16"
+  resolved "https://registry.yarnpkg.com/graphql-merge-resolvers/-/graphql-merge-resolvers-1.1.16.tgz#3247fa085fb1826ed43234e17e08b8e53a24c051"
+  integrity sha512-8173WP78XYkeZ3PsAHzFIySNeRZhcvvXUelBLJ15bp81ia0tlEWdFbnhrt6YWp4W58qFlUDkcTeqSuB9ULSSNg==
 
 graphql-playground-html@^1.6.29:
   version "1.6.29"

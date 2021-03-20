@@ -1,10 +1,10 @@
 import { IResolvers } from 'graphql-tools';
 import query from './query';
-import mutations from './mutations';
+import mutation from './mutation';
 
 const resolvers: IResolvers = {
   ...query,
-  ...mutations,
+  ...mutation,
 };
 
 export default resolvers;

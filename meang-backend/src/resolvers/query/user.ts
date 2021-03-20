@@ -1,12 +1,14 @@
 import { IResolvers } from 'graphql-tools';
 import bcrypt from 'bcrypt';
-import { COLLECTIONS, MESSAGES } from '../config/constants';
-import JWT from '../lib/jwt';
+import { COLLECTIONS, MESSAGES } from '../../config/constants';
+import JWT from '../../lib/jwt';
+import { findElements, findOneElement } from '../../lib/db-operations';
 
 function mapUserDB2User(user: any) {
   return { ...user, id: user._id };
 }
-const resolversQuery: IResolvers = {
+
+const resolversUsersQuery: IResolvers = {
   Query: {
     async users(_, __, { db }) {
       let res;
@@ -15,7 +17,7 @@ const resolversQuery: IResolvers = {
         res = {
           status: true,
           message: 'User list loaded properly',
-          users: (await db.collection(COLLECTIONS.USERS).find().toArray()).map(
+          users: (await findElements(db, COLLECTIONS.USERS)).map(
             mapUserDB2User
           ),
         };
@@ -33,7 +35,7 @@ const resolversQuery: IResolvers = {
     async login(_, { email, password }, { db }) {
       let res;
       try {
-        const user = await db.collection(COLLECTIONS.USERS).findOne({ email });
+        const user = await findOneElement(db, COLLECTIONS.USERS, { email });
 
         if (user) {
           const passwordCheck = bcrypt.compareSync(password, user.password);
@@ -76,18 +78,18 @@ const resolversQuery: IResolvers = {
       let res;
       let info = new JWT().verify(token);
 
-      if(info === MESSAGES.TOKEN_VERIFICATION_FAILED){
+      if (info === MESSAGES.TOKEN_VERIFICATION_FAILED) {
         res = {
           status: false,
           message: info,
           user: null,
-        }
+        };
       } else {
         res = {
           status: true,
           message: 'User authenticated',
-          user: mapUserDB2User(Object.values(info)[0])
-        }
+          user: mapUserDB2User(Object.values(info)[0]),
+        };
       }
 
       return res;
@@ -95,4 +97,4 @@ const resolversQuery: IResolvers = {
   },
 };
 
-export default resolversQuery;
+export default resolversUsersQuery;
