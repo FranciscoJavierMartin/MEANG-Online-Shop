@@ -8,6 +8,8 @@
       "@admin/*": ["src/app/@admin/*"],
       "@admin-core/*": ["src/app/@admin/core/*"],
       "@shop-core/*": ["src/app/@public/core/*"],
+      "@graphql/*": ["src/app/@graphql/*"],
+      "@core/*": ["src/app/@core/*"]
     },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
