@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { QueryUsers } from '@core/interfaces/results/users';
 import { USERS_LIST_QUERY } from '@graphql/operations/quey/user';
 import { ApiService } from '@graphql/services/api.service';
 import { Apollo } from 'apollo-angular';
@@ -13,8 +14,8 @@ export class UsersService extends ApiService {
   }
 
   public getUsers() {
-    return this.get(USERS_LIST_QUERY, {
+    return this.get<QueryUsers>(USERS_LIST_QUERY, {
       include: true,
-    }).pipe(map((result: any) => result.users));
+    }).pipe(map((result: QueryUsers) => result.users));
   }
 }

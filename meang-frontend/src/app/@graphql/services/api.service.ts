@@ -9,13 +9,13 @@ import { map } from 'rxjs/operators';
 export class ApiService {
   constructor(private apollo: Apollo) {}
 
-  protected get(
+  protected get<T>(
     query: DocumentNode,
     variables: object = {},
     context: object = {}
   ) {
     return this.apollo
-      .watchQuery({
+      .watchQuery<T>({
         query,
         variables,
         context,

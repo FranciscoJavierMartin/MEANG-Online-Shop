@@ -11,14 +11,14 @@ export class HomeComponent implements OnInit {
   constructor(private usersApi: UsersService, private auth: AuthService) {}
 
   ngOnInit(): void {
-    // this.auth.login('john@doe.com', '123456').subscribe((result) => {
-    //   console.log(result);
-    // });
-
-    this.auth.getMe().subscribe((result) => {
+    this.auth.login('john@doe.com', '123456').subscribe((result) => {
       console.log(result);
     });
 
-    this.usersApi.getUsers().subscribe((result) => console.log(result));
+    // this.auth.getMe().subscribe((result) => {
+    //   console.log(result);
+    // });
+
+    // this.usersApi.getUsers().subscribe((result) => console.log(result));
   }
 }
