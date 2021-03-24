@@ -1,1 +1,79 @@
-<p>login works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-lg"></div>
+    <div class="col-lg-6">
+      <form (ngSubmit)="loginHandler()" #loginForm="ngForm">
+        <h1>Sign In</h1>
+        <p class="psw">Do not have an account? <a href="#">Sign Up</a></p>
+        <hr />
+        <label for="email"><b>Email</b></label>
+        <input
+          type="email"
+          placeholder="Email"
+          name="email"
+          required
+          class="form-control"
+          #email="ngModel"
+          [(ngModel)]="login.email"
+          [ngClass]="{
+            'is-valid': !email.invalid,
+            'is-invalid': email.invalid && (email.dirty || email.touched)
+          }"
+          pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+        />
+        <div
+          class="alert alert-danger"
+          *ngIf="email.invalid && (email.dirty || email.touched)"
+        >
+          <div *ngIf="email.errors.required">Email is required</div>
+          <div *ngIf="email.errors && email.errors.pattern">
+            Invalid email address
+          </div>
+        </div>
+
+        <label for="psw"><b>Password</b></label>
+        <input
+          type="password"
+          #password="ngModel"
+          [(ngModel)]="login.password"
+          placeholder="Password"
+          name="password"
+          required
+          class="form-control"
+          [ngClass]="{
+            'is-valid': !password.invalid,
+            'is-invalid':
+              password.invalid && (password.dirty || password.touched)
+          }"
+        />
+
+        <div
+          class="alert alert-danger"
+          *ngIf="password.invalid && (password.dirty || password.touched)"
+        >
+          <div *ngIf="password.errors.required">Password is required</div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg">
+            <button
+              type="submit"
+              [disabled]="!loginForm.valid"
+              class="signup-btn"
+              ngClass="{'spinner-border': loading}"
+            >
+              <div class="spinner-border" *ngIf="loading"></div>
+              <span *ngIf="!loading">Login</span>
+            </button>
+          </div>
+        </div>
+        <div class="more-options">
+          <p class="psw">
+            <a [routerLink]="['/forgot']">Do you forgot your password?</a>
+          </p>
+        </div>
+      </form>
+    </div>
+    <div class="col-lg"></div>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 import { Result } from './result';
 
 export interface ResultLogin extends Result {
-  token: string;
+  token?: string;
 }
 
 export interface QueryLogin {
