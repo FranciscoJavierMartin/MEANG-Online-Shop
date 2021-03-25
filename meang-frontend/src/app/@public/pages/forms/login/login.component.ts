@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { LOCAL_STORAGE_SESSION } from '@core/constants/localStorage';
 import { LoginForm } from '@core/interfaces/forms/login.interface';
-import { ResultLogin } from '@core/interfaces/results/login';
+import { ResultLogin } from '@core/interfaces/results/login.interface';
 import { AuthService } from '@core/services/auth.service';
 import { basicAlert } from '@shared/alerts/toasts';
 import { TYPE_ALERT } from '@shared/alerts/values.config';
@@ -10,7 +11,7 @@ import { TYPE_ALERT } from '@shared/alerts/values.config';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loading: boolean = false;
   login: LoginForm = {
     email: '',
@@ -18,6 +19,10 @@ export class LoginComponent {
   };
 
   constructor(private auth: AuthService) {}
+
+  ngOnInit() {
+    this.auth.start();
+  }
 
   loginHandler() {
     this.loading = true;
@@ -27,6 +32,7 @@ export class LoginComponent {
         this.loading = false;
         if (result.status && result.token) {
           basicAlert(result.message, TYPE_ALERT.SUCCESS);
+          this.auth.setSession(result.token);
         } else if (result.status) {
           basicAlert(result.message, TYPE_ALERT.WARNING);
         }

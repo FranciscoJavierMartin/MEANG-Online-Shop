@@ -1,5 +1,5 @@
-import { User } from '../models/user';
-import { Result } from './result';
+import { User } from '../models/user.interface';
+import { Result } from './result.interface';
 
 export interface ResultUsers extends Result {
   users: User[];

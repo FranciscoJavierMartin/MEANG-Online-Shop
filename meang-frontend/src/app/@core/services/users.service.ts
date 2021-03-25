@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { QueryUsers } from '@core/interfaces/results/users';
+import { QueryUsers } from '@core/interfaces/results/users.interface';
 import { USERS_LIST_QUERY } from '@graphql/operations/quey/user';
 import { ApiService } from '@graphql/services/api.service';
 import { Apollo } from 'apollo-angular';
