@@ -1,8 +1,24 @@
 input[type="text"] {
-  width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
   display: inline-block;
   border: 1px solid #ccc;
   box-sizing: border-box;
+  flex-grow: 9;
+}
+
+.input-group {
+  width: 100%;
+  align-items: stretch;
+}
+
+.input-group-append {
+  flex-shrink: 1;
+}
+
+button {
+  height: 50px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  border-radius: 0%;
 }
