@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { NotLoginGuard } from '@core/guards/not-login.guard';
 import { PublicComponent } from './public.component';
 
 const routes: Routes = [
@@ -19,11 +20,13 @@ const routes: Routes = [
       },
       {
         path: 'login',
+        canActivate: [NotLoginGuard],
         loadChildren: () =>
           import('./forms/login/login.module').then((m) => m.LoginModule),
       },
       {
         path: 'register',
+        canActivate: [NotLoginGuard],
         loadChildren: () =>
           import('./forms/register/register.module').then(
             (m) => m.RegisterModule
