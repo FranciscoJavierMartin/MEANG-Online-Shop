@@ -1,1 +1,23 @@
-<p>date-picker-legal-age works!</p>
+<div class="input-group">
+  <input
+    type="text"
+    ngbDatepicker
+    #d="ngbDatepicker"
+    [(ngModel)]="selectedDate"
+    placeholder="Date of birth"
+    (click)="d.toggle()"
+    (ngModelChange)="selectDateChange()"
+    [minDate]="minDate"
+    [maxDate]="maxDate"
+  />
+  <!--TODO: Align the button properly -->
+  <!-- <div class="input-group-append">
+    <button
+      class="btn btn-outline-secondary"
+      (click)="d.toggle()"
+      type="button"
+    >
+      <fa-icon [icon]="faCalendar"></fa-icon>
+    </button>
+  </div> -->
+</div>

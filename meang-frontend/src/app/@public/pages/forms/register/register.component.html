@@ -1,1 +1,48 @@
-<p>register works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-lg"></div>
+    <div class="col-lg-6">
+      <form>
+        <h1>Sign Up</h1>
+        <hr />
+        <label for="name"><b>Name</b></label>
+        <input type="text" placeholder="Enter name" name="name" required />
+        <label for="lastname"><b>Last Name</b></label>
+        <input
+          type="text"
+          placeholder="Enter last name"
+          name="lastname"
+          required
+        />
+        <label for="email"><b>Email</b></label>
+        <input type="text" placeholder="Enter Email" name="email" required />
+        <label for="password"><b>Password</b></label>
+        <input
+          type="password"
+          placeholder="Enter Password"
+          name="password"
+          required
+        />
+        <label for="birthday"><b>Date of birth</b></label>
+        <app-date-picker-legal-age
+          (dateChanged)="dataAsign($event)"
+        ></app-date-picker-legal-age>
+        <p>
+          By creating an account you agree to our
+          <a href="#" style="color: dodgerblue">Terms & Privacy</a>.
+        </p>
+        <p>
+          Do you have an account?
+          <a [routerLink]="['/login']" style="color: dodgerblue">Sign In</a>
+        </p>
+        <div class="row">
+          <div class="col-lg">
+            <button type="submit" class="signup-btn">Sign Up</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-lg"></div>
+  </div>
+</div>
