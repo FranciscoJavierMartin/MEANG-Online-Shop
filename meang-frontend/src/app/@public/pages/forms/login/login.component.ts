@@ -26,16 +26,20 @@ export class LoginComponent implements OnInit {
 
   loginHandler() {
     this.loading = true;
-    this.auth
-      .login(this.login.email, this.login.password)
-      .subscribe((result: ResultLogin) => {
+    this.auth.login(this.login.email, this.login.password).subscribe(
+      (result: ResultLogin) => {
         this.loading = false;
         if (result.status && result.token) {
           basicAlert(result.message, TYPE_ALERT.SUCCESS);
           this.auth.setSession(result.token);
+          this.auth.updateSession(result);
         } else if (result.status) {
           basicAlert(result.message, TYPE_ALERT.WARNING);
         }
-      });
+      },
+      () => {
+        this.loading = false;
+      }
+    );
   }
 }

@@ -10,23 +10,33 @@ import { QueryMe, ResultMe } from '@core/interfaces/results/me.interface';
 import { LOGIN_QUERY, ME_DATA_QUERY } from '@graphql/operations/quey/user';
 import { ApiService } from '@graphql/services/api.service';
 import { Apollo } from 'apollo-angular';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService extends ApiService {
+  accessVar = new Subject<ResultMe>();
+  accessVar$ = this.accessVar.asObservable();
+
   constructor(apollo: Apollo) {
     super(apollo);
   }
 
   public start() {
     if (this.getSession()) {
-      this.getMe().subscribe((result) => {
+      this.getMe().subscribe((result: ResultMe) => {
         if (!result.status) {
-          localStorage.removeItem(LOCAL_STORAGE_SESSION);
+          this.resetSession();
+        } else {
+          this.updateSession(result);
         }
+      });
+    } else {
+      this.updateSession({
+        status: false,
+        message: '',
       });
     }
   }
@@ -35,6 +45,7 @@ export class AuthService extends ApiService {
     return this.get<QueryLogin>(LOGIN_QUERY, {
       email,
       password,
+      include: false,
     }).pipe(map((result: QueryLogin) => result.login));
   }
 
@@ -60,5 +71,14 @@ export class AuthService extends ApiService {
 
   public getSession(): Session {
     return JSON.parse(localStorage.getItem(LOCAL_STORAGE_SESSION));
+  }
+
+  public updateSession(newValue: ResultMe) {
+    this.accessVar.next(newValue);
+  }
+
+  public resetSession(): void {
+    localStorage.removeItem(LOCAL_STORAGE_SESSION);
+    this.updateSession({ status: false, message: '' });
   }
 }

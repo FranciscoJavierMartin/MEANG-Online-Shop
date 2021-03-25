@@ -31,7 +31,7 @@
       </li>
     </ul>
     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="access && role === 'ADMIN'">
         <a
           [routerLink]="['/admin']"
           class="nav-link"
@@ -39,7 +39,7 @@
           >Admin</a
         >
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="!access">
         <a
           [routerLink]="['/login']"
           class="nav-link"
@@ -47,7 +47,7 @@
           >Login</a
         >
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="!access">
         <a
           [routerLink]="['/register']"
           class="nav-link"
@@ -55,7 +55,7 @@
           >Register</a
         >
       </li>
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown" *ngIf="access">
         <a
           class="nav-link dropdown-toggle"
           href="#"
@@ -65,7 +65,7 @@
           aria-haspopup="true"
           aria-expanded="false"
         >
-          Username
+          {{ userLabel }}
         </a>
         <div
           class="dropdown-menu dropdown-menu-right"
@@ -78,7 +78,7 @@
             ><fa-icon [icon]="faCog" class="mr-2"></fa-icon>Settings</a
           >
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">
+          <a class="dropdown-item" (click)="logout()">
             <fa-icon [icon]="faSignOutAlt" class="mr-2"></fa-icon>Logout</a
           >
         </div>

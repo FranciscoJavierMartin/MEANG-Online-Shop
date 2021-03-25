@@ -9,7 +9,13 @@ export function basicAlert(
     title,
     icon,
     position: 'top',
-    confirmButtonText: 'Close',
+    showConfirmButton: false,
     toast: true,
+    timer: 5000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer);
+      toast.addEventListener('mouseleave', Swal.resumeTimer);
+    }
   });
 }

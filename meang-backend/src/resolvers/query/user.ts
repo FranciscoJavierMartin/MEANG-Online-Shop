@@ -44,11 +44,13 @@ const resolversUsersQuery: IResolvers = {
             delete user.password;
             delete user.birthday;
             delete user.registerDate;
+            user.id = user._id;
 
             res = {
               status: true,
               message: 'Login successful',
               token: new JWT().sign({ user }),
+              user,
             };
           } else {
             res = {
