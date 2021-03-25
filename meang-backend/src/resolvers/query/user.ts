@@ -5,7 +5,7 @@ import JWT from '../../lib/jwt';
 import { findElements, findOneElement } from '../../lib/db-operations';
 
 function mapUserDB2User(user: any) {
-  return { ...user, id: user._id };
+  return { ...user, id: user._id, _id: undefined };
 }
 
 const resolversUsersQuery: IResolvers = {
@@ -41,10 +41,12 @@ const resolversUsersQuery: IResolvers = {
           const passwordCheck = bcrypt.compareSync(password, user.password);
 
           if (passwordCheck) {
+            user.id = user._id;
+
             delete user.password;
             delete user.birthday;
             delete user.registerDate;
-            user.id = user._id;
+            delete user._id;
 
             res = {
               status: true,
