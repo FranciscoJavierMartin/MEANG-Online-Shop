@@ -44,7 +44,7 @@ const resolversUsersQuery: IResolvers = {
             user.id = user._id;
 
             delete user.password;
-            delete user.birthday;
+            // delete user.dateOfBirth;
             delete user.registerDate;
             delete user._id;
 

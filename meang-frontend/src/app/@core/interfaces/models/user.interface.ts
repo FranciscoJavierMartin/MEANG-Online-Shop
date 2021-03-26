@@ -5,6 +5,6 @@ export interface User {
   email: string;
   password?: string;
   registerDate?: string;
-  birthday?: string;
+  dateOfBirth?: string;
   role?: string;
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LOCAL_STORAGE_SESSION } from '@core/constants/localStorage';
 import { LoginForm } from '@core/interfaces/forms/login.interface';
 import { ResultLogin } from '@core/interfaces/results/login.interface';
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
     password: '',
   };
 
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.auth.start();
@@ -33,6 +34,7 @@ export class LoginComponent implements OnInit {
           basicAlert(result.message, TYPE_ALERT.SUCCESS);
           this.auth.setSession(result.token);
           this.auth.updateSession(result);
+          this.router.navigate(['/']);
         } else if (result.status) {
           basicAlert(result.message, TYPE_ALERT.WARNING);
         }

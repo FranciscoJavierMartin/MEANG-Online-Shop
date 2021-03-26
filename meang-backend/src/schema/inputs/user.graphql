@@ -4,6 +4,6 @@ input UserInput {
   lastname: String!
   email: String!
   password: String!
-  birthday: String!
+  dateOfBirth: String!
   role: Role = CLIENT
 }

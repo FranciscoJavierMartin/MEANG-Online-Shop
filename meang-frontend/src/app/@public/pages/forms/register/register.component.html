@@ -1,7 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-lg"></div>
-    <div class="col-lg-6">
+    <div class="col">
       <form (ngSubmit)="registerHandler()" #registerForm="ngForm">
         <h1>Sign Up</h1>
         <hr />
@@ -46,7 +45,7 @@
         >
           <div *ngIf="lastname.errors.required">Last Name is required</div>
         </div>
-        <label for="birthday"><b>Date of birth</b></label>
+        <label for="dateOfBirth"><b>Date of birth</b></label>
         <app-date-picker-legal-age
           (dateChanged)="dateAssignment($event)"
         ></app-date-picker-legal-age>

@@ -7,3 +7,11 @@ export interface RegisterForm {
   confirmPassword: string;
   termsAccepted: boolean;
 }
+
+export interface RegisterData {
+  name: string;
+  lastname: string;
+  dateOfBirth: string;
+  email: string;
+  password: string;
+}
