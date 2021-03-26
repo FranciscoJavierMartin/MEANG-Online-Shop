@@ -41,18 +41,14 @@ const resolversUsersQuery: IResolvers = {
           const passwordCheck = bcrypt.compareSync(password, user.password);
 
           if (passwordCheck) {
-            user.id = user._id;
-
             delete user.password;
-            // delete user.dateOfBirth;
             delete user.registerDate;
-            delete user._id;
 
             res = {
               status: true,
               message: 'Login successful',
               token: new JWT().sign({ user }),
-              user,
+              user: mapUserDB2User(user),
             };
           } else {
             res = {
@@ -92,7 +88,7 @@ const resolversUsersQuery: IResolvers = {
         res = {
           status: true,
           message: 'User authenticated',
-          user: mapUserDB2User(Object.values(info)[0]),
+          user: Object.values(info)[0],
         };
       }
 
