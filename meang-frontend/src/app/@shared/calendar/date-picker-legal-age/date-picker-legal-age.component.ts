@@ -9,7 +9,6 @@ import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 })
 export class DatePickerLegalAgeComponent {
   readonly faCalendar = faCalendar;
-  selectedDate: NgbDateStruct;
   readonly currentDate: NgbDateStruct = {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
@@ -23,6 +22,7 @@ export class DatePickerLegalAgeComponent {
     ...this.currentDate,
     year: this.currentDate.year - 18,
   };
+  selectedDate: NgbDateStruct = this.maxDate;
   @Output() dateChanged = new EventEmitter<NgbDateStruct>();
 
   constructor() {}

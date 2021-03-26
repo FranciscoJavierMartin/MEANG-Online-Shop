@@ -9,6 +9,7 @@
     (ngModelChange)="selectDateChange()"
     [minDate]="minDate"
     [maxDate]="maxDate"
+    readonly
   />
   <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
     <fa-icon [icon]="faCalendar"></fa-icon>
