@@ -7,6 +7,7 @@ import {
   findElements,
   insertOneElement,
   mapDB2Reponse,
+  updateOneElement,
 } from '../lib/db-operations';
 
 export default class ResolversOperationsService {
@@ -105,6 +106,45 @@ export default class ResolversOperationsService {
       res = {
         status: false,
         message: `Error adding ${item}`,
+        item: null,
+      };
+    }
+
+    return res;
+  }
+
+  protected async update(
+    collection: COLLECTIONS,
+    id: string,
+    objectUpdate: object,
+    item: string
+  ) {
+    let res;
+    try {
+      const { result } = await updateOneElement(
+        this.getDb(),
+        collection,
+        id,
+        objectUpdate
+      );
+
+      if (result.ok) {
+        res = {
+          status: true,
+          message: `${item} updated`,
+          item: Object.assign({ id }, objectUpdate),
+        };
+      } else {
+        res = {
+          status: false,
+          message: `${item} does not updated`,
+          item: null,
+        };
+      }
+    } catch (error) {
+      res = {
+        status: false,
+        message: `Error on update ${item}`,
         item: null,
       };
     }

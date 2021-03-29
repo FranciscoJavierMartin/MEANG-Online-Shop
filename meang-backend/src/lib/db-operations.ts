@@ -31,6 +31,16 @@ export const insertManyElements = async (
   documents: Array<object>
 ) => database.collection(collection).insertMany(documents);
 
+export const updateOneElement = async (
+  database: Db,
+  collection: COLLECTIONS,
+  id: string,
+  objectUpdate: object
+) =>
+  database
+    .collection(collection)
+    .updateOne({ _id: new ObjectId(id) }, { $set: objectUpdate });
+
 export const mapDB2Reponse = (entity: any) => ({
   ...entity,
   id: entity._id,
