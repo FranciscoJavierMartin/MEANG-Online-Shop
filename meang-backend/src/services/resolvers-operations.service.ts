@@ -1,10 +1,11 @@
+import { Db } from 'mongodb';
 import { COLLECTIONS } from '../config/constants';
 import { ContextData } from '../interfaces/context-data.interface';
 import { Variables } from '../interfaces/variable.interface';
 import {
   findById,
   findElements,
-  findOneElement,
+  insertOneElement,
   mapDB2Reponse,
 } from '../lib/db-operations';
 
@@ -14,6 +15,14 @@ export default class ResolversOperationsService {
     private variables: Variables,
     private context: ContextData
   ) {}
+
+  protected getVariables(): Variables {
+    return this.variables;
+  }
+
+  protected getDb(): Db {
+    return this.context.db;
+  }
 
   protected async list(collection: COLLECTIONS, listElement: string) {
     let res;
@@ -64,6 +73,38 @@ export default class ResolversOperationsService {
       res = {
         status: false,
         message: error.toString(),
+        item: null,
+      };
+    }
+
+    return res;
+  }
+
+  protected async add(collection: COLLECTIONS, document: object, item: string) {
+    let res;
+    try {
+      const { result } = await insertOneElement(
+        this.context.db,
+        collection,
+        document
+      );
+      if (result.ok === 1) {
+        res = {
+          status: true,
+          message: `Added ${item}`,
+          item: document,
+        };
+      } else {
+        res = {
+          status: false,
+          message: `${item} has not been inserted.`,
+          item: null,
+        };
+      }
+    } catch (error) {
+      res = {
+        status: false,
+        message: `Error adding ${item}`,
         item: null,
       };
     }

@@ -7,7 +7,7 @@ const resolversGenresQuery: IResolvers = {
       return await new GenreService(_, __, { db }).items();
     },
     async genre(_, { id }, { db }) {
-      return await new GenreService(_, { id }, { db }).item(id);
+      return await new GenreService(_, { id }, { db }).item();
     },
   },
 };
