@@ -1,4 +1,4 @@
-import { Db } from 'mongodb';
+import { Db, ObjectId } from 'mongodb';
 import { COLLECTIONS } from '../config/constants';
 
 export const findOneElement = async (
@@ -6,6 +6,12 @@ export const findOneElement = async (
   collection: COLLECTIONS,
   filter: object
 ) => database.collection(collection).findOne(filter);
+
+export const findById = async (
+  database: Db,
+  collection: COLLECTIONS,
+  id: string | number | undefined
+) => database.collection(collection).findOne({ _id: new ObjectId(id) });
 
 export const findElements = async (
   database: Db,
@@ -24,3 +30,9 @@ export const insertManyElements = async (
   collection: COLLECTIONS,
   documents: Array<object>
 ) => database.collection(collection).insertMany(documents);
+
+export const mapDB2Reponse = (entity: any) => ({
+  ...entity,
+  id: entity._id,
+  _id: undefined,
+});

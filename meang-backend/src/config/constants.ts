@@ -8,6 +8,7 @@ export const SECRET_KEY = process.env.SECRET || '';
 
 export enum COLLECTIONS {
   USERS = 'users',
+  GENRES = 'genres',
 }
 
 export enum MESSAGES {

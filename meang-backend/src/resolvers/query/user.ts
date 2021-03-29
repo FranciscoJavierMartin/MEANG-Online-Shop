@@ -2,35 +2,13 @@ import { IResolvers } from 'graphql-tools';
 import bcrypt from 'bcrypt';
 import { COLLECTIONS, MESSAGES } from '../../config/constants';
 import JWT from '../../lib/jwt';
-import { findElements, findOneElement } from '../../lib/db-operations';
-
-function mapUserDB2User(user: any) {
-  return { ...user, id: user._id, _id: undefined };
-}
+import { findOneElement, mapDB2Reponse } from '../../lib/db-operations';
+import UserService from '../../services/user.service';
 
 const resolversUsersQuery: IResolvers = {
   Query: {
     async users(_, __, { db }) {
-      let res;
-
-      try {
-        res = {
-          status: true,
-          message: 'User list loaded properly',
-          users: (await findElements(db, COLLECTIONS.USERS)).map(
-            mapUserDB2User
-          ),
-        };
-      } catch (error) {
-        console.log(error);
-        res = {
-          status: false,
-          message: error.toString(),
-          users: [],
-        };
-      }
-
-      return res;
+      return await new UserService(_, __, { db }).items();
     },
     async login(_, { email, password }, { db }) {
       let res;
@@ -48,7 +26,7 @@ const resolversUsersQuery: IResolvers = {
               status: true,
               message: 'Login successful',
               token: new JWT().sign({ user }),
-              user: mapUserDB2User(user),
+              user: mapDB2Reponse(user),
             };
           } else {
             res = {
