@@ -110,6 +110,38 @@ class GenreService extends ResolversOperationsService {
     return res;
   }
 
+  public async delete() {
+    let res;
+    const id = String(this.getVariables().id);
+
+    if (id) {
+      if (await this.existsOnDatabasebyId(id)) {
+        const { status, message } = await this.remove(
+          COLLECTIONS.GENRES,
+          id,
+          'Genre'
+        );
+
+        res = {
+          status,
+          message,
+        };
+      } else {
+        res = {
+          status: false,
+          message: `Genre with ID ${id} not found`,
+        };
+      }
+    } else {
+      res = {
+        status: false,
+        message: 'Invalid input',
+      };
+    }
+
+    return res;
+  }
+
   private async existsOnDatabase(value: string): Promise<boolean> {
     return !!(await findOneElement(this.getDb(), COLLECTIONS.GENRES, {
       name: value,

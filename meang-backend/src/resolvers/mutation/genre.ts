@@ -6,9 +6,12 @@ const resolversGenresMutation: IResolvers = {
     async addGenre(_, variables, context) {
       return await new GenreService(_, variables, context).insert();
     },
-    async updateGenre(_, variables, context){
+    async updateGenre(_, variables, context) {
       return await new GenreService(_, variables, context).modify();
-    }
+    },
+    async deleteGenre(_, variables, context) {
+      return await new GenreService(_, variables, context).delete();
+    },
   },
 };
 

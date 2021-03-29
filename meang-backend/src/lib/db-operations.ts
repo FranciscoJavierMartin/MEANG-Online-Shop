@@ -41,6 +41,12 @@ export const updateOneElement = async (
     .collection(collection)
     .updateOne({ _id: new ObjectId(id) }, { $set: objectUpdate });
 
+export const deleteOneElement = async (
+  database: Db,
+  collection: COLLECTIONS,
+  id: string
+) => database.collection(collection).deleteOne({ _id: new ObjectId(id) });
+
 export const mapDB2Reponse = (entity: any) => ({
   ...entity,
   id: entity._id,

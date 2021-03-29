@@ -3,6 +3,7 @@ import { COLLECTIONS } from '../config/constants';
 import { ContextData } from '../interfaces/context-data.interface';
 import { Variables } from '../interfaces/variable.interface';
 import {
+  deleteOneElement,
   findById,
   findElements,
   insertOneElement,
@@ -146,6 +147,37 @@ export default class ResolversOperationsService {
         status: false,
         message: `Error on update ${item}`,
         item: null,
+      };
+    }
+
+    return res;
+  }
+
+  protected async remove(collection: COLLECTIONS, id: string, item: string) {
+    let res;
+
+    try {
+      const { deletedCount } = await deleteOneElement(
+        this.getDb(),
+        collection,
+        id
+      );
+
+      if (deletedCount === 1) {
+        res = {
+          status: true,
+          message: `${item} with ID ${id} removed`,
+        };
+      } else {
+        res = {
+          status: false,
+          message: `${item} with ID ${id} was not removed`,
+        };
+      }
+    } catch (error) {
+      res = {
+        status: false,
+        message: `Unespected error deleting ${item} with ID ${id}`,
       };
     }
 
