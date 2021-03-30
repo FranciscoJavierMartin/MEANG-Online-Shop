@@ -2,7 +2,6 @@ import slugify from 'slugify';
 import { COLLECTIONS } from '../config/constants';
 import { ContextData } from '../interfaces/context-data.interface';
 import { Variables } from '../interfaces/variable.interface';
-import { findById, findOneElement } from '../lib/db-operations';
 import ResolversOperationsService from './resolvers-operations.service';
 
 class GenreService extends ResolversOperationsService {
@@ -36,7 +35,7 @@ class GenreService extends ResolversOperationsService {
     const { genre } = this.getVariables();
 
     if (genre) {
-      if (await this.existsOnDatabase(genre)) {
+      if (await this.existsOnDatabase({ name: genre })) {
         res = {
           status: false,
           message: `${genre} genre is already exists on database`,
@@ -75,7 +74,7 @@ class GenreService extends ResolversOperationsService {
     const { id, genre } = this.getVariables();
 
     if (id && genre) {
-      if (await this.existsOnDatabasebyId(String(id))) {
+      if (await this.existsOnDatabasebyId(String(id), COLLECTIONS.GENRES)) {
         const objectUpdate = {
           name: genre,
           slug: slugify(genre, { lower: true }),
@@ -115,7 +114,7 @@ class GenreService extends ResolversOperationsService {
     const id = String(this.getVariables().id);
 
     if (id) {
-      if (await this.existsOnDatabasebyId(id)) {
+      if (await this.existsOnDatabasebyId(id, COLLECTIONS.GENRES)) {
         const { status, message } = await this.remove(
           COLLECTIONS.GENRES,
           id,
@@ -140,16 +139,6 @@ class GenreService extends ResolversOperationsService {
     }
 
     return res;
-  }
-
-  private async existsOnDatabase(value: string): Promise<boolean> {
-    return !!(await findOneElement(this.getDb(), COLLECTIONS.GENRES, {
-      name: value,
-    }));
-  }
-
-  private async existsOnDatabasebyId(id: string): Promise<boolean> {
-    return !!(await findById(this.getDb(), COLLECTIONS.GENRES, id));
   }
 }
 

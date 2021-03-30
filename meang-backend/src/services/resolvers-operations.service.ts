@@ -6,6 +6,7 @@ import {
   deleteOneElement,
   findById,
   findElements,
+  findOneElement,
   insertOneElement,
   mapDB2Reponse,
   updateOneElement,
@@ -24,6 +25,10 @@ export default class ResolversOperationsService {
 
   protected getDb(): Db {
     return this.context.db;
+  }
+
+  protected getToken(): string | undefined {
+    return this.context.token;
   }
 
   protected async list(collection: COLLECTIONS, listElement: string) {
@@ -122,6 +127,8 @@ export default class ResolversOperationsService {
   ) {
     let res;
     try {
+      delete (objectUpdate as any).id;
+
       const { result } = await updateOneElement(
         this.getDb(),
         collection,
@@ -133,7 +140,7 @@ export default class ResolversOperationsService {
         res = {
           status: true,
           message: `${item} updated`,
-          item: Object.assign({ id }, objectUpdate),
+          item: { ...objectUpdate, id },
         };
       } else {
         res = {
@@ -182,5 +189,16 @@ export default class ResolversOperationsService {
     }
 
     return res;
+  }
+
+  protected async existsOnDatabase(filter: object): Promise<boolean> {
+    return !!(await findOneElement(this.getDb(), COLLECTIONS.GENRES, filter));
+  }
+
+  protected async existsOnDatabasebyId(
+    id: string,
+    collection: COLLECTIONS
+  ): Promise<boolean> {
+    return !!(await findById(this.getDb(), collection, id));
   }
 }
