@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TablePaginationModule } from '@shared/table-pagination/table-pagination.module';
 
 import { UsersRoutingModule } from './users-routing.module';
 import { UsersComponent } from './users.component';
@@ -9,7 +10,8 @@ import { UsersComponent } from './users.component';
   declarations: [UsersComponent],
   imports: [
     CommonModule,
-    UsersRoutingModule
+    UsersRoutingModule,
+    TablePaginationModule,
   ]
 })
 export class UsersModule { }

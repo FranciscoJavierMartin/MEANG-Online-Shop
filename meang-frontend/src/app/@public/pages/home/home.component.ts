@@ -10,5 +10,7 @@ import { UsersService } from '@core/services/users.service';
 export class HomeComponent implements OnInit {
   constructor(private usersApi: UsersService, private auth: AuthService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // this.usersApi.getUsers(1, 1).subscribe(console.log);
+  }
 }

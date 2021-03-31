@@ -20,9 +20,11 @@ export class UsersService extends ApiService {
     super(apollo);
   }
 
-  public getUsers() {
+  public getUsers(page: number = 1, itemsPage: number = 20) {
     return this.get<QueryUsers>(USERS_LIST_QUERY, {
       include: true,
+      page,
+      itemsPage,
     }).pipe(map((result: QueryUsers) => result.users));
   }
 
