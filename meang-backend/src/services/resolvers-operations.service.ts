@@ -11,6 +11,7 @@ import {
   mapDB2Reponse,
   updateOneElement,
 } from '../lib/db-operations';
+import { pagination } from '../lib/pagination';
 
 export default class ResolversOperationsService {
   constructor(
@@ -31,21 +32,40 @@ export default class ResolversOperationsService {
     return this.context.token;
   }
 
-  protected async list(collection: COLLECTIONS, listElement: string) {
+  protected async list(
+    collection: COLLECTIONS,
+    listElement: string,
+    page: number = 1,
+    itemsPage: number = 20
+  ) {
     let res;
 
     try {
+      const paginationData = await pagination(
+        this.getDb(),
+        collection,
+        page,
+        itemsPage
+      );
+
       res = {
         status: true,
+        info: {
+          page: paginationData.page,
+          pages: paginationData.pages,
+          itemsPage: paginationData.itemsPage,
+          total: paginationData.total,
+        },
         message: `${listElement} list loaded properly`,
-        items: (await findElements(this.context.db, collection)).map(
-          mapDB2Reponse
-        ),
+        items: (
+          await findElements(this.context.db, collection, {}, paginationData)
+        ).map(mapDB2Reponse),
       };
     } catch (error) {
       console.log(error);
       res = {
         status: false,
+        info: null,
         message: error.toString(),
         items: [],
       };

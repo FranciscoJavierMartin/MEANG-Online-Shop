@@ -1,0 +1,10 @@
+type ResultInfo {
+  "Current page"
+  page: Int!
+  "Number of documents"
+  total: Int!
+  "Documents per page"
+  itemsPage: Int!
+  "Number of pages"
+  pages: Int!
+}

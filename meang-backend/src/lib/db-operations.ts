@@ -1,5 +1,6 @@
 import { Db, ObjectId } from 'mongodb';
 import { COLLECTIONS } from '../config/constants';
+import { IPaginationOptions } from '../interfaces/pagination-options.interface';
 
 export const findOneElement = async (
   database: Db,
@@ -16,8 +17,35 @@ export const findById = async (
 export const findElements = async (
   database: Db,
   collection: COLLECTIONS,
-  filter?: object
-) => database.collection(collection).find(filter).toArray();
+  filter: object = {},
+  paginationOptions: IPaginationOptions = {
+    page: 1,
+    pages: 1,
+    itemsPage: 20,
+    total: -1,
+    skip: 0,
+  }
+) => {
+  let res;
+  console.log(paginationOptions);
+  if (paginationOptions.total === -1) {
+    res = await database.collection(collection).find(filter).toArray();
+  } else {
+    res = await database
+      .collection(collection)
+      .find(filter)
+      .skip(paginationOptions.skip)
+      .limit(paginationOptions.itemsPage)
+      .toArray();
+  }
+
+  return res;
+};
+
+export const countElements = async (
+  database: Db,
+  collection: COLLECTIONS
+): Promise<number> => await database.collection(collection).countDocuments();
 
 export const insertOneElement = async (
   database: Db,
