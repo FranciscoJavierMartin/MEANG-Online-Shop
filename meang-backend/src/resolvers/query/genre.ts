@@ -3,15 +3,15 @@ import GenreService from '../../services/genre.service';
 
 const resolversGenresQuery: IResolvers = {
   Query: {
-    async genres(_, variables, { db }) {
+    async genres(_, variables, context) {
       return await new GenreService(
         _,
         { pagination: variables },
-        { db }
+        context
       ).items();
     },
-    async genre(_, { id }, { db }) {
-      return await new GenreService(_, { id }, { db }).item();
+    async genre(_, { id }, context) {
+      return await new GenreService(_, { id }, context).item();
     },
   },
 };

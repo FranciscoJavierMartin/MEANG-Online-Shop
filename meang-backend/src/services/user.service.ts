@@ -12,12 +12,18 @@ class UserService extends ResolversOperationsService {
   }
 
   async users() {
-    const { status, message, items } = await this.list(
+    const page = this.getVariables().pagination?.page;
+    const itemsPage = this.getVariables().pagination?.itemsPage;
+
+    const { status, message, items, info } = await this.list(
       COLLECTIONS.USERS,
-      'Users'
+      'Users',
+      page,
+      itemsPage
     );
     return {
       status,
+      info,
       message,
       users: items,
     };
