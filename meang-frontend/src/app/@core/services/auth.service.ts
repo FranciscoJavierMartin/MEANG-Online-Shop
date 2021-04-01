@@ -7,7 +7,7 @@ import {
   ResultLogin,
 } from '@core/interfaces/results/login.interface';
 import { QueryMe, ResultMe } from '@core/interfaces/results/me.interface';
-import { LOGIN_QUERY, ME_DATA_QUERY } from '@graphql/operations/quey/user';
+import { LOGIN_QUERY, ME_DATA_QUERY } from '@graphql/operations/query/user';
 import { ApiService } from '@graphql/services/api.service';
 import { Apollo } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';

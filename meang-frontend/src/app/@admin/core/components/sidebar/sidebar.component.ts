@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { faColumns, faIdCard } from '@fortawesome/free-solid-svg-icons';
+import {
+  faColumns,
+  faIdCard,
+  faAtlas,
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-admin-sidebar',
@@ -9,7 +13,8 @@ import { faColumns, faIdCard } from '@fortawesome/free-solid-svg-icons';
 export class SidebarComponent implements OnInit {
   faColumns = faColumns;
   faIdCard = faIdCard;
-
+  faAtlas = faAtlas;
+  
   constructor() {}
 
   ngOnInit(): void {}

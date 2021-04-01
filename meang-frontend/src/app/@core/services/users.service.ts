@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { RegisterData } from '@core/interfaces/forms/register.interface';
 import { QueryUsers } from '@core/interfaces/results/users.interface';
 import { REGISTER_USER } from '@graphql/operations/mutation/user';
-import { USERS_LIST_QUERY } from '@graphql/operations/quey/user';
+import { USERS_LIST_QUERY } from '@graphql/operations/query/user';
 import { ApiService } from '@graphql/services/api.service';
 import {
   MutationRegister,

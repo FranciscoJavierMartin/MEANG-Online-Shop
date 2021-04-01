@@ -3,7 +3,7 @@ import {
   InfoPage,
   IResultData,
 } from '@core/interfaces/results/result-data.interface';
-import { QueryUsers } from '@core/interfaces/results/users.interface';
+import { ITableColumns } from '@core/interfaces/ui/table-columns.interface';
 import { DocumentNode } from 'graphql';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -20,13 +20,20 @@ export class TablePaginationComponent implements OnInit {
   @Input() itemsPage: number = 20;
   @Input() include: boolean = true;
   @Input() resultData: IResultData;
+  @Input() tableColumns: Array<ITableColumns>;
   infoPage: InfoPage;
   data$: Observable<any>;
 
   constructor(private tableService: TablePaginationService) {}
 
   ngOnInit(): void {
-    if (this.query) {
+    if (!this.query) {
+      throw new Error('Query is not defined, please add');
+    } else if (!this.resultData) {
+      throw new Error('Result data is not defined, please add');
+    } else if (!this.tableColumns) {
+      throw new Error('Table columns is not defined, please add');
+    } else {
       if (this.resultData) {
         this.infoPage = {
           page: 1,
@@ -36,8 +43,6 @@ export class TablePaginationComponent implements OnInit {
         };
         this.loadData();
       }
-    } else {
-      throw new Error('Query is not defined, please add');
     }
   }
 
@@ -59,7 +64,7 @@ export class TablePaginationComponent implements OnInit {
       );
   }
 
-  public changePage() :void{
+  public changePage(): void {
     this.loadData();
   }
 }
