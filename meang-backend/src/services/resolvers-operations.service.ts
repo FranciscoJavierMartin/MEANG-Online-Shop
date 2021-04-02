@@ -110,7 +110,7 @@ export default class ResolversOperationsService {
   protected async add(collection: COLLECTIONS, document: object, item: string) {
     let res;
     try {
-      const { result } = await insertOneElement(
+      const { result, insertedId } = await insertOneElement(
         this.context.db,
         collection,
         document
@@ -119,7 +119,7 @@ export default class ResolversOperationsService {
         res = {
           status: true,
           message: `Added ${item}`,
-          item: document,
+          item: { ...document, id: insertedId },
         };
       } else {
         res = {

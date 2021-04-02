@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  faPlusCircle,
+  faInfo,
+  faEdit,
+  faLock,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   InfoPage,
   IResultData,
@@ -21,8 +27,16 @@ export class TablePaginationComponent implements OnInit {
   @Input() include: boolean = true;
   @Input() resultData: IResultData;
   @Input() tableColumns: Array<ITableColumns>;
+  @Output() addItem: EventEmitter<void> = new EventEmitter<void>();
+  @Output() editItem: EventEmitter<any> = new EventEmitter<any>();
+  @Output() infoItem: EventEmitter<any> = new EventEmitter<any>();
+  // @Output() addItemEmitter: EventEmitter<void> = new EventEmitter<void>();
   infoPage: InfoPage;
   data$: Observable<any>;
+  readonly faPlusCircle = faPlusCircle;
+  readonly faInfo = faInfo;
+  readonly faEdit = faEdit;
+  readonly faLock = faLock;
 
   constructor(private tableService: TablePaginationService) {}
 
@@ -66,5 +80,17 @@ export class TablePaginationComponent implements OnInit {
 
   public changePage(): void {
     this.loadData();
+  }
+
+  public addItemHandler(): void {
+    this.addItem.emit();
+  }
+
+  public editItemHandler(data: any): void {
+    this.editItem.emit(data);
+  }
+
+  public infoItemHandler(data: any): void {
+    this.infoItem.emit(data);
   }
 }

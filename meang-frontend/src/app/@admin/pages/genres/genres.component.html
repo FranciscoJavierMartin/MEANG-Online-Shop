@@ -5,4 +5,7 @@
   [resultData]="resultData"
   [include]="include"
   [tableColumns]="columns"
+  (addItem)="addGenre()"
+  (editItem)="editGenre($event)"
+  (infoItem)="infoGenre($event)"
 ></app-table-pagination>

@@ -11,9 +11,9 @@ import {
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  faColumns = faColumns;
-  faIdCard = faIdCard;
-  faAtlas = faAtlas;
+  readonly faColumns = faColumns;
+  readonly faIdCard = faIdCard;
+  readonly faAtlas = faAtlas;
   
   constructor() {}
 

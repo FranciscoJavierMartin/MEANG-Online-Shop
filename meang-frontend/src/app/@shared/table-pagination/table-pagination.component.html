@@ -1,3 +1,9 @@
+<button
+  class="btn btn-success float-right mr-3 mb-2"
+  (click)="addItemHandler()"
+>
+  <fa-icon [icon]="faPlusCircle"></fa-icon> &nbsp; Add
+</button>
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
@@ -5,13 +11,25 @@
         <th scope="col" *ngFor="let column of tableColumns">
           {{ column.label }}
         </th>
+        <th scope="col">Manage</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let data of data$ | async">
-        <th scope="row" *ngFor="let column of tableColumns">
+        <td scope="row" *ngFor="let column of tableColumns">
           {{ data[column.property] }}
-        </th>
+        </td>
+        <td>
+          <button type="button" class="btn btn-secondary" (click)="editItemHandler(data)">
+            <fa-icon [icon]="faEdit"></fa-icon>
+          </button>
+          <button type="button" class="btn btn-info ml-1" (click)="infoItemHandler(data)">
+            <fa-icon [icon]="faInfo"></fa-icon>
+          </button>
+          <button type="button" class="btn btn-danger ml-1">
+            <fa-icon [icon]="faLock"></fa-icon>
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>

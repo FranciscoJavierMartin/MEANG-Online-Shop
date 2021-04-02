@@ -27,7 +27,7 @@ export const findElements = async (
   }
 ) => {
   let res;
-  console.log(paginationOptions);
+
   if (paginationOptions.total === -1) {
     res = await database.collection(collection).find(filter).toArray();
   } else {
@@ -51,13 +51,13 @@ export const insertOneElement = async (
   database: Db,
   collection: COLLECTIONS,
   document: object
-) => database.collection(collection).insertOne(document);
+) => await database.collection(collection).insertOne(document);
 
 export const insertManyElements = async (
   database: Db,
   collection: COLLECTIONS,
   documents: Array<object>
-) => database.collection(collection).insertMany(documents);
+) => await database.collection(collection).insertMany(documents);
 
 export const updateOneElement = async (
   database: Db,

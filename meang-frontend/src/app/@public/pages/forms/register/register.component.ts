@@ -54,7 +54,6 @@ export class RegisterComponent implements OnInit {
           } else {
             basicAlert(result.message, TYPE_ALERT.ERROR);
           }
-          console.log('Result', result);
         },
         (error) => {
           this.loading = false;
