@@ -7,7 +7,8 @@ export async function pagination(
   db: Db,
   collection: COLLECTIONS,
   page: number = 1,
-  itemsPage: number = 20
+  itemsPage: number = 20,
+  filters: object = {}
 ): Promise<IPaginationOptions> {
   if (itemsPage < 1 || itemsPage > 20) {
     itemsPage = 20;
@@ -16,7 +17,7 @@ export async function pagination(
     page = 1;
   }
 
-  const total = await countElements(db, collection);
+  const total = await countElements(db, collection, filters);
   const pages = Math.ceil(total / itemsPage);
 
   return {

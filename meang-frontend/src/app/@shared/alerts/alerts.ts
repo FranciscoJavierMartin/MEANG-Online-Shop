@@ -22,16 +22,21 @@ export async function formBasicDialog(
 export async function infoDetailsBasic(
   title: string,
   html: string,
-  width: number
-) {
-  return await Swal.fire({
+  width: number,
+  confirmButtonText: string = 'Edit',
+  cancelButtonText: string = 'Block'
+): Promise<boolean> {
+  const { value, dismiss } = await Swal.fire({
     title,
     text: html,
     width: `${width}px`,
     showCancelButton: true,
+    showCloseButton: true,
     confirmButtonColor: '#6c757d',
     cancelButtonColor: '#dc3545',
-    confirmButtonText: 'Edit',
-    cancelButtonText: 'Lock',
+    confirmButtonText,
+    cancelButtonText,
   });
+
+  return value ? true : dismiss.toString() === 'cancel' ? false : undefined;
 }

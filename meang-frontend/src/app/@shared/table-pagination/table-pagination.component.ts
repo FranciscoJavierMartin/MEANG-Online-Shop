@@ -30,7 +30,7 @@ export class TablePaginationComponent implements OnInit {
   @Output() addItem: EventEmitter<void> = new EventEmitter<void>();
   @Output() editItem: EventEmitter<any> = new EventEmitter<any>();
   @Output() infoItem: EventEmitter<any> = new EventEmitter<any>();
-  // @Output() addItemEmitter: EventEmitter<void> = new EventEmitter<void>();
+  @Output() blockItem: EventEmitter<string> = new EventEmitter<string>();
   infoPage: InfoPage;
   data$: Observable<any>;
   readonly faPlusCircle = faPlusCircle;
@@ -92,5 +92,9 @@ export class TablePaginationComponent implements OnInit {
 
   public infoItemHandler(data: any): void {
     this.infoItem.emit(data);
+  }
+
+  public blockItemHandler(id: string): void {
+    this.blockItem.emit(id);
   }
 }

@@ -26,7 +26,7 @@
           <button type="button" class="btn btn-info ml-1" (click)="infoItemHandler(data)">
             <fa-icon [icon]="faInfo"></fa-icon>
           </button>
-          <button type="button" class="btn btn-danger ml-1">
+          <button type="button" class="btn btn-danger ml-1" (click)="blockItemHandler(data.id)">
             <fa-icon [icon]="faLock"></fa-icon>
           </button>
         </td>

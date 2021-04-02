@@ -36,7 +36,8 @@ export default class ResolversOperationsService {
     collection: COLLECTIONS,
     listElement: string,
     page: number = 1,
-    itemsPage: number = 20
+    itemsPage: number = 20,
+    filters: object = { active: { $ne: false } }
   ) {
     let res;
 
@@ -45,7 +46,8 @@ export default class ResolversOperationsService {
         this.getDb(),
         collection,
         page,
-        itemsPage
+        itemsPage,
+        filters
       );
 
       res = {
@@ -58,7 +60,12 @@ export default class ResolversOperationsService {
         },
         message: `${listElement} list loaded properly`,
         items: (
-          await findElements(this.context.db, collection, {}, paginationData)
+          await findElements(
+            this.context.db,
+            collection,
+            filters,
+            paginationData
+          )
         ).map(mapDB2Reponse),
       };
     } catch (error) {

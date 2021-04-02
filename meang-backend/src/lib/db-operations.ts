@@ -44,8 +44,10 @@ export const findElements = async (
 
 export const countElements = async (
   database: Db,
-  collection: COLLECTIONS
-): Promise<number> => await database.collection(collection).countDocuments();
+  collection: COLLECTIONS,
+  filters: object = {}
+): Promise<number> =>
+  await database.collection(collection).countDocuments(filters);
 
 export const insertOneElement = async (
   database: Db,

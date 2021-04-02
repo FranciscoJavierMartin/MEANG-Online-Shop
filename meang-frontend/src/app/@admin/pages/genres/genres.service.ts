@@ -3,7 +3,11 @@ import {
   MutationGenre,
   ResultGenre,
 } from '@core/interfaces/results/genre.interface';
-import { ADD_GENRE, UPDATE_GENRE } from '@graphql/operations/mutation/genre';
+import {
+  ADD_GENRE,
+  BLOCK_GENRE,
+  UPDATE_GENRE,
+} from '@graphql/operations/mutation/genre';
 import { ApiService } from '@graphql/services/api.service';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
@@ -26,6 +30,12 @@ export class GenresService extends ApiService {
   public updateGenre(id: string, genre: string): Observable<ResultGenre> {
     return this.set<MutationGenre>(UPDATE_GENRE, { id, genre }, {}).pipe(
       map((result) => result.updateGenre)
+    );
+  }
+
+  public block(id: string): Observable<ResultGenre> {
+    return this.set<MutationGenre>(BLOCK_GENRE, { id }, {}).pipe(
+      map((result) => result.blockGenre)
     );
   }
 }

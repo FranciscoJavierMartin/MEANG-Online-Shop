@@ -83,8 +83,30 @@ export class GenresComponent implements OnInit {
       375
     );
 
-    // if(result.dismiss === 'cancel'){
+    if (result) {
+      this.editGenre(genre);
+    } else if (result === false) {
+      this.blockGenre(genre.id);
+    }
+  }
 
-    // }
+  public async blockGenre(id: string): Promise<void> {
+    const result = await infoDetailsBasic(
+      'Block',
+      'Do you want to block this genre?',
+      375,
+      'No',
+      'Yes'
+    );
+
+    if (result === false) {
+      this.genreService.block(id).subscribe((res) => {
+        if (res.status) {
+          basicAlert(res.message, TYPE_ALERT.SUCCESS);
+        } else {
+          basicAlert(res.message, TYPE_ALERT.WARNING);
+        }
+      });
+    }
   }
 }

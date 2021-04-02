@@ -146,6 +146,38 @@ class GenreService extends ResolversOperationsService {
 
     return res;
   }
+
+  public async block() {
+    let res;
+    const id = this.getVariables().id;
+
+    if (id) {
+      const { status, item } = await this.update(
+        COLLECTIONS.GENRES,
+        String(id),
+        { active: false },
+        'Genre'
+      );
+
+      if (status) {
+        res = {
+          status,
+          message: `Genre with ${id} blocked`,
+          item,
+        };
+      } else {
+        res = {
+          status,
+          message: `Error on blocking Genre with ${id}`,
+          genre: null,
+        };
+      }
+    } else {
+      res = { status: false, message: 'Invalid ID', genre: null };
+    }
+
+    return res;
+  }
 }
 
 export default GenreService;

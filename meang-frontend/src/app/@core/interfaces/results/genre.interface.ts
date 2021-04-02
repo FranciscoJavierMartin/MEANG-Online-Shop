@@ -11,4 +11,5 @@ export interface ResultGenre extends Result {
 export interface MutationGenre {
   addGenre?: ResultGenre;
   updateGenre?: ResultGenre;
+  blockGenre?: ResultGenre;
 }
