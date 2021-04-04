@@ -16,7 +16,7 @@ import { Genre } from '@core/interfaces/models/genre.interface';
   styleUrls: ['./genres.component.scss'],
 })
 export class GenresComponent implements OnInit {
-  query: DocumentNode = GENRE_LIST_QUERY;
+  readonly query: DocumentNode = GENRE_LIST_QUERY;
   readonly context: object = {};
   readonly itemsPage: number = 5;
   resultData: IResultData = {

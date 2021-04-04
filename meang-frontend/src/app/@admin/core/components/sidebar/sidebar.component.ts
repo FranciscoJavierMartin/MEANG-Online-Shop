@@ -3,6 +3,7 @@ import {
   faColumns,
   faIdCard,
   faAtlas,
+  faTags,
 } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -14,7 +15,8 @@ export class SidebarComponent implements OnInit {
   readonly faColumns = faColumns;
   readonly faIdCard = faIdCard;
   readonly faAtlas = faAtlas;
-  
+  readonly faTags = faTags;
+
   constructor() {}
 
   ngOnInit(): void {}

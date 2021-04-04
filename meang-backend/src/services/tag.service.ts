@@ -19,6 +19,7 @@ class TagService extends ResolversOperationsService {
       page,
       itemsPage
     );
+    console.log(items);
     return {
       info,
       status,

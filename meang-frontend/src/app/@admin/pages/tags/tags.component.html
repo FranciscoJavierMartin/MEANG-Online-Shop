@@ -1,0 +1,12 @@
+<app-table-pagination
+  [query]="query"
+  [context]="context"
+  [itemsPage]="itemsPage"
+  [resultData]="resultData"
+  [include]="include"
+  [tableColumns]="columns"
+  (addItem)="addTag()"
+  (editItem)="editTag($event)"
+  (infoItem)="infoTag($event)"
+  (blockItem)="blockTag($event)"
+></app-table-pagination>

@@ -20,13 +20,25 @@
           {{ data[column.property] }}
         </td>
         <td>
-          <button type="button" class="btn btn-secondary" (click)="editItemHandler(data)">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="editItemHandler(data)"
+          >
             <fa-icon [icon]="faEdit"></fa-icon>
           </button>
-          <button type="button" class="btn btn-info ml-1" (click)="infoItemHandler(data)">
+          <button
+            type="button"
+            class="btn btn-info ml-1"
+            (click)="infoItemHandler(data)"
+          >
             <fa-icon [icon]="faInfo"></fa-icon>
           </button>
-          <button type="button" class="btn btn-danger ml-1" (click)="blockItemHandler(data.id)">
+          <button
+            type="button"
+            class="btn btn-danger ml-1"
+            (click)="blockItemHandler(data.id)"
+          >
             <fa-icon [icon]="faLock"></fa-icon>
           </button>
         </td>
@@ -40,6 +52,8 @@
       [(page)]="infoPage.page"
       [pageSize]="infoPage.itemsPage"
       (pageChange)="changePage()"
+      [boundaryLinks]="true"
+      [maxSize]="5"
     >
     </ngb-pagination>
 
