@@ -190,13 +190,45 @@ class UserService extends ResolversOperationsService {
     let res;
     const { id } = this.getVariables();
     if (id) {
-      res = await this.remove(COLLECTIONS.USERS, String(id), 'User');
+      res = await this.remove(COLLECTIONS.USERS, id, 'User');
     } else {
       res = {
         status: false,
         message: 'Invalid input',
         user: null,
       };
+    }
+
+    return res;
+  }
+
+  public async block() {
+    let res;
+    const id = this.getVariables().id;
+
+    if (id) {
+      const { status, item } = await this.update(
+        COLLECTIONS.USERS,
+        id,
+        { active: false },
+        'User'
+      );
+
+      if (status) {
+        res = {
+          status,
+          message: `User with ${id} blocked`,
+          user: item,
+        };
+      } else {
+        res = {
+          status,
+          message: `Error on blocking User with ${id}`,
+          user: null,
+        };
+      }
+    } else {
+      res = { status: false, message: 'Invalid ID', user: null };
     }
 
     return res;

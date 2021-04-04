@@ -8,11 +8,7 @@ import { User } from '@core/interfaces/models/user.interface';
 import { IResultData } from '@core/interfaces/results/result-data.interface';
 import { ITableColumns } from '@core/interfaces/ui/table-columns.interface';
 import { USERS_LIST_QUERY } from '@graphql/operations/query/user';
-import {
-  formBasicDialog,
-  infoDetailsBasic,
-  userFormBasicDialog,
-} from '@shared/alerts/alerts';
+import { infoDetailsBasic, userFormBasicDialog } from '@shared/alerts/alerts';
 import { basicAlert } from '@shared/alerts/toasts';
 import { TYPE_ALERT } from '@shared/alerts/values.config';
 import { DocumentNode } from 'graphql';
@@ -115,7 +111,24 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  public async blockUser(user: User): Promise<void> {}
+  public async blockUser(id: string): Promise<void> {
+    const result = await infoDetailsBasic(
+      'Do you want to block?',
+      'Blocked users are not shown',
+      430,
+      "No, don't block",
+      'Yes, block'
+    );
+    if (result === false) {
+      this.usersAdminService.block(id).subscribe((result) => {
+        if (result.status) {
+          basicAlert(result.message, TYPE_ALERT.SUCCESS);
+        } else {
+          basicAlert(result.message, TYPE_ALERT.ERROR);
+        }
+      });
+    }
+  }
 
   private initializeAddUserForm(): string {
     return `

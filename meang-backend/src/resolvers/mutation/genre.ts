@@ -3,18 +3,18 @@ import GenreService from '../../services/genre.service';
 
 const resolversGenresMutation: IResolvers = {
   Mutation: {
-    async addGenre(_, variables, context) {
-      return await new GenreService(_, variables, context).insert();
+    addGenre(_, variables, context) {
+      return new GenreService(_, variables, context).insert();
     },
-    async updateGenre(_, variables, context) {
-      return await new GenreService(_, variables, context).modify();
+    updateGenre(_, variables, context) {
+      return new GenreService(_, variables, context).modify();
     },
-    async deleteGenre(_, variables, context) {
-      return await new GenreService(_, variables, context).delete();
+    deleteGenre(_, variables, context) {
+      return new GenreService(_, variables, context).delete();
     },
-    async blockGenre(_, variables, context){
-      return await new GenreService(_, variables, context).block();
-    }
+    blockGenre(_, variables, context) {
+      return new GenreService(_, variables, context).block();
+    },
   },
 };
 

@@ -10,7 +10,7 @@ import {
   ResultUser,
 } from '@core/interfaces/results/users.interface';
 import { UsersService } from '@core/services/users.service';
-import { UPDATE_USER } from '@graphql/operations/mutation/user';
+import { BLOCK_USER, UPDATE_USER } from '@graphql/operations/mutation/user';
 import { ApiService } from '@graphql/services/api.service';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
@@ -34,5 +34,11 @@ export class UsersAdminService extends ApiService {
       { user, include: false },
       {}
     ).pipe(map((result) => result.updateUser));
+  }
+
+  block(id: string): Observable<ResultUser> {
+    return this.set<MutationUser>(BLOCK_USER, { id }, {}).pipe(
+      map((result) => result.blockUser)
+    );
   }
 }

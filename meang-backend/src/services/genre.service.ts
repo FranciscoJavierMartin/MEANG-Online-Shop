@@ -80,14 +80,14 @@ class GenreService extends ResolversOperationsService {
     const { id, genre } = this.getVariables();
 
     if (id && genre) {
-      if (await this.existsOnDatabasebyId(String(id), COLLECTIONS.GENRES)) {
+      if (await this.existsOnDatabasebyId(id, COLLECTIONS.GENRES)) {
         const objectUpdate = {
           name: genre,
           slug: slugify(genre, { lower: true }),
         };
         const { item, message, status } = await this.update(
           COLLECTIONS.GENRES,
-          String(id),
+          id,
           objectUpdate,
           'Genre'
         );
@@ -117,7 +117,7 @@ class GenreService extends ResolversOperationsService {
 
   public async delete() {
     let res;
-    const id = String(this.getVariables().id);
+    const id = this.getVariables().id;
 
     if (id) {
       if (await this.existsOnDatabasebyId(id, COLLECTIONS.GENRES)) {
@@ -154,7 +154,7 @@ class GenreService extends ResolversOperationsService {
     if (id) {
       const { status, item } = await this.update(
         COLLECTIONS.GENRES,
-        String(id),
+        id,
         { active: false },
         'Genre'
       );
@@ -163,7 +163,7 @@ class GenreService extends ResolversOperationsService {
         res = {
           status,
           message: `Genre with ${id} blocked`,
-          item,
+          genre: item,
         };
       } else {
         res = {

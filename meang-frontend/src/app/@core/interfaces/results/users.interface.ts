@@ -6,7 +6,7 @@ export interface ResultUsers extends Result {
 }
 
 export interface ResultUser extends Result {
-  user: User;
+  user?: User;
 }
 
 export interface QueryUsers {
@@ -15,4 +15,5 @@ export interface QueryUsers {
 
 export interface MutationUser {
   updateUser?: ResultUser;
+  blockUser?: ResultUser;
 }

@@ -3,14 +3,17 @@ import UserService from '../../services/user.service';
 
 const resolversUsersMutation: IResolvers = {
   Mutation: {
-    async register(_, variables, context) {
-      return await new UserService(_, variables, context).register();
+    register(_, variables, context) {
+      return new UserService(_, variables, context).register();
     },
-    async updateUser(_, variables, context){
-      return await new UserService(_, variables, context).modify();
+    updateUser(_, variables, context){
+      return new UserService(_, variables, context).modify();
     },
-    async deleteUser(_, variales, context){
-      return await new UserService(_, variales, context).delete();
+    deleteUser(_, variales, context){
+      return new UserService(_, variales, context).delete();
+    },
+    blockUser(_, variables, context){
+      return new UserService(_, variables, context).block();
     }
   },
 };
