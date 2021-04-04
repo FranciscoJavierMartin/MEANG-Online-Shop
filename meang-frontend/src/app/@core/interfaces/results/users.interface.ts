@@ -5,6 +5,14 @@ export interface ResultUsers extends Result {
   users: User[];
 }
 
+export interface ResultUser extends Result {
+  user: User;
+}
+
 export interface QueryUsers {
   users: ResultUsers;
+}
+
+export interface MutationUser {
+  updateUser?: ResultUser;
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LOCAL_STORAGE_SESSION } from '@core/constants/localStorage';
+import { EMAIL_PATTERN } from '@core/constants/regexp';
 import { LoginForm } from '@core/interfaces/forms/login.interface';
 import { ResultLogin } from '@core/interfaces/results/login.interface';
 import { AuthService } from '@core/services/auth.service';
@@ -13,6 +14,7 @@ import { TYPE_ALERT } from '@shared/alerts/values.config';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+  readonly emailPattern = EMAIL_PATTERN;
   loading: boolean = false;
   login: LoginForm = {
     email: '',

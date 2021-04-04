@@ -1,3 +1,5 @@
+import { ROLES } from '@core/enums/roles';
+
 export interface User {
   id: string;
   name: string;
@@ -6,5 +8,6 @@ export interface User {
   password?: string;
   registerDate?: string;
   dateOfBirth?: string;
-  role?: string;
+  role?: ROLES;
+  active: boolean;
 }

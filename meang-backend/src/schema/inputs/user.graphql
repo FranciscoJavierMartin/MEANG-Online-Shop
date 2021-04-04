@@ -6,4 +6,5 @@ input UserInput {
   password: String
   dateOfBirth: String!
   role: Role = CLIENT
+  active: Boolean
 }

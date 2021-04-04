@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { EMAIL_PATTERN } from '@core/constants/regexp';
 import {
   RegisterData,
   RegisterForm,
@@ -14,6 +15,7 @@ import { TYPE_ALERT } from '@shared/alerts/values.config';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
+  readonly emailPattern = EMAIL_PATTERN;
   loading: boolean = false;
   register: RegisterForm = {
     name: '',
@@ -78,6 +80,7 @@ export class RegisterComponent implements OnInit {
       email,
       dateOfBirth,
       password,
+      active: false,
     };
   }
 }

@@ -5,4 +5,8 @@
   [resultData]="resultData"
   [include]="include"
   [tableColumns]="columns"
+  (addItem)="addUser()"
+  (editItem)="editUser($event)"
+  (infoItem)="infoUser($event)"
+  (blockItem)="blockUser($event)"
 ></app-table-pagination>
