@@ -202,28 +202,51 @@ class UserService extends ResolversOperationsService {
     return res;
   }
 
-  public async block() {
+  public async unblock(unblock: boolean) {
     let res;
     const id = this.getVariables().id;
+    const user = this.getVariables().user;
 
-    if (id) {
+    if (user && user.password !== '1234') {
+      res = {
+        status: false,
+        message: 'Please change default password',
+      };
+    } else if (id && user) {
+      let updatedAttributes;
+      if (unblock) {
+        updatedAttributes = { active: unblock };
+      } else {
+        updatedAttributes = Object.assign(
+          { active: unblock },
+          {
+            dateOfBirth: user.dateOfBirth,
+            password: bcrypt.hashSync(user.password, 10),
+          }
+        );
+      }
+
       const { status, item } = await this.update(
         COLLECTIONS.USERS,
         id,
-        { active: false },
+        updatedAttributes,
         'User'
       );
 
       if (status) {
         res = {
           status,
-          message: `User with ${id} blocked`,
+          message: unblock
+            ? `User with ${id} unblocked`
+            : `User with ${id} blocked`,
           user: item,
         };
       } else {
         res = {
           status,
-          message: `Error on blocking User with ${id}`,
+          message: unblock
+            ? `Error on unblocking User with ${id}`
+            : `Error on blocking User with ${id}`,
           user: null,
         };
       }
