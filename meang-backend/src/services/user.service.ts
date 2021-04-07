@@ -1,10 +1,11 @@
 import bcrypt from 'bcrypt';
 import JWT from '../lib/jwt';
-import { COLLECTIONS, MESSAGES } from '../config/constants';
+import { COLLECTIONS, EXPIRETIME, MESSAGES } from '../config/constants';
 import { ContextData } from '../interfaces/context-data.interface';
 import { Variables } from '../interfaces/variable.interface';
 import { findOneElement, mapDB2Reponse } from '../lib/db-operations';
 import ResolversOperationsService from './resolvers-operations.service';
+import MailService from './mail.service';
 
 class UserService extends ResolversOperationsService {
   constructor(root: object, variables: Variables, context: ContextData) {
@@ -135,7 +136,6 @@ class UserService extends ResolversOperationsService {
             user: mapDB2Reponse(item),
           };
         } catch (error) {
-          console.log(error);
           res = {
             status: false,
             message: error.toString(),
@@ -252,6 +252,28 @@ class UserService extends ResolversOperationsService {
       }
     } else {
       res = { status: false, message: 'Invalid ID', user: null };
+    }
+
+    return res;
+  }
+
+  public async active() {
+    let res;
+    const id = this.getVariables().user?.id;
+    const email = this.getVariables().user?.email || '';
+    if (email) {
+      const token = new JWT().sign({ user: { id, email } }, EXPIRETIME.H1);
+      const html = `Click <a href="${process.env.CLIENT_URL}/#/active/${token}">here</a> to activate your account.`;
+      res = new MailService().send({
+        subject: 'Activate your account',
+        to: email,
+        html,
+      });
+    } else {
+      res = {
+        status: false,
+        message: 'Email was not sent',
+      };
     }
 
     return res;

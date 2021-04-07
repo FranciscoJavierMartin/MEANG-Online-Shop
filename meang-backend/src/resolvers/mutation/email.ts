@@ -1,46 +1,17 @@
 import { IResolvers } from 'graphql-tools';
-import bcrypt from 'bcrypt';
-import { COLLECTIONS, EXPIRETIME, MESSAGES } from '../../config/constants';
-import { transport } from '../../config/mailer';
-import { findOneElement, updateOneElement } from '../../lib/db-operations';
+import { MESSAGES } from '../../config/constants';
 import JWT from '../../lib/jwt';
 import UserService from '../../services/user.service';
+import MailService from '../../services/mail.service';
+import PasswordService from '../../services/password.service';
 
 const resolversEmailMutation: IResolvers = {
   Mutation: {
     async sendEmail(_, { mail }) {
-      return new Promise((resolve, reject) => {
-        transport.sendMail(
-          {
-            from: `"Gamezonia Online shop" <${process.env.USER_EMAIL}>`,
-            to: mail.to,
-            subject: mail.subject,
-            html: mail.html,
-          },
-          (error, _) =>
-            error
-              ? reject({ status: false, message: error })
-              : resolve({ status: true, message: 'Email sent' })
-        );
-      });
+      return new MailService().send(mail);
     },
     async activeUserEmail(_, { id, email }) {
-      const token = new JWT().sign({ user: { id, email } }, EXPIRETIME.H1);
-      const html = `Click <a href="${process.env.CLIENT_URL}/#/active/${token}">here</a> to activate your account.`;
-      return new Promise((resolve, reject) => {
-        transport.sendMail(
-          {
-            from: `"Gamezonia Online shop" <${process.env.USER_EMAIL}>`,
-            to: email,
-            subject: 'Activate your account',
-            html,
-          },
-          (error, _) =>
-            error
-              ? reject({ status: false, message: error })
-              : resolve({ status: true, message: 'Email sent' })
-        );
-      });
+      return new UserService(_, { user: { id, email } }, {}).active();
     },
     async activeUserAction(_, { id, dateOfBirth, password }, { db, token }) {
       let res = verifyToken(token, id);
@@ -55,69 +26,19 @@ const resolversEmailMutation: IResolvers = {
 
       return res;
     },
-    async resetPassword(_, { email }, { db }) {
-      let res;
-      const user = await findOneElement(db, COLLECTIONS.USERS, { email });
-
-      if (user) {
-        const token = new JWT().sign({ user }, EXPIRETIME.H1);
-
-        const html = `Click <a href="${process.env.CLIENT_URL}/#/active/${token}">here</a> to reset your password.`;
-        res = new Promise((resolve, reject) => {
-          transport.sendMail(
-            {
-              from: `"Gamezonia Online shop" <${process.env.USER_EMAIL}>`,
-              to: email,
-              subject: 'Change password',
-              html,
-            },
-            (error, _) =>
-              error
-                ? reject({ status: false, message: error })
-                : resolve({ status: true, message: 'Email sent' })
-          );
-        });
-      } else {
-        res = {
-          status: false,
-          message: `User with email ${email} does not exist.`,
-        };
-      }
-
-      return res;
+    async resetPassword(_, { email }, context) {
+      return new PasswordService(_, { user: { email } }, context).sendEmail();
     },
     async changePassword(_, { id, password }, { db, token }) {
       let res;
       const verifiedToken = verifyToken(token, id);
 
       if (verifiedToken.status) {
-        if (id && password) {
-          const { result } = await updateOneElement(db, COLLECTIONS.USERS, id, {
-            password: bcrypt.hashSync(password, 10),
-          });
-
-          if (result.nModified === 1 && result.ok) {
-            res = {
-              status: true,
-              message: 'Password changed',
-            };
-          } else {
-            res = {
-              status: false,
-              message: 'Password has not been changed',
-            };
-          }
-        } else {
-          res = {
-            status: false,
-            message: 'Invalid params',
-          };
-        }
-      } else {
-        res = {
-          status: false,
-          message: verifiedToken.message,
-        };
+        res = await new PasswordService(
+          _,
+          { user: { id, password } },
+          { db }
+        ).change();
       }
 
       return res;

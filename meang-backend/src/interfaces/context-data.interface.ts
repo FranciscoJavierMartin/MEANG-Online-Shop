@@ -1,6 +1,6 @@
 import { Db } from 'mongodb';
 
 export interface ContextData {
-  db: Db;
+  db?: Db;
   token?: string;
 }
