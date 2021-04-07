@@ -1,7 +1,8 @@
 import { IResolvers } from 'graphql-tools';
+import bcrypt from 'bcrypt';
 import { COLLECTIONS, EXPIRETIME, MESSAGES } from '../../config/constants';
 import { transport } from '../../config/mailer';
-import { findOneElement } from '../../lib/db-operations';
+import { findOneElement, updateOneElement } from '../../lib/db-operations';
 import JWT from '../../lib/jwt';
 import UserService from '../../services/user.service';
 
@@ -42,28 +43,14 @@ const resolversEmailMutation: IResolvers = {
       });
     },
     async activeUserAction(_, { id, dateOfBirth, password }, { db, token }) {
-      let res;
-      const checkToken = new JWT().verify(token);
-      if (checkToken === MESSAGES.TOKEN_VERIFICATION_FAILED) {
-        res = {
-          status: false,
-          message: 'Activation time has expired. Please contact with an admin',
-        };
-      } else {
-        const user = Object.values(checkToken)[0];
+      let res = verifyToken(token, id);
 
-        if (user.id !== id) {
-          res = {
-            status: false,
-            message: 'Token Id does not match with provided Id',
-          };
-        } else {
-          res = new UserService(
-            _,
-            { id, user: { dateOfBirth, password } },
-            { token, db }
-          ).unblock(true);
-        }
+      if (res.status) {
+        res = await new UserService(
+          _,
+          { id, user: { dateOfBirth, password } },
+          { token, db }
+        ).unblock(true);
       }
 
       return res;
@@ -76,7 +63,7 @@ const resolversEmailMutation: IResolvers = {
         const token = new JWT().sign({ user }, EXPIRETIME.H1);
 
         const html = `Click <a href="${process.env.CLIENT_URL}/#/active/${token}">here</a> to reset your password.`;
-        return new Promise((resolve, reject) => {
+        res = new Promise((resolve, reject) => {
           transport.sendMail(
             {
               from: `"Gamezonia Online shop" <${process.env.USER_EMAIL}>`,
@@ -99,7 +86,69 @@ const resolversEmailMutation: IResolvers = {
 
       return res;
     },
+    async changePassword(_, { id, password }, { db, token }) {
+      let res;
+      const verifiedToken = verifyToken(token, id);
+
+      if (verifiedToken.status) {
+        if (id && password) {
+          const { result } = await updateOneElement(db, COLLECTIONS.USERS, id, {
+            password: bcrypt.hashSync(password, 10),
+          });
+
+          if (result.nModified === 1 && result.ok) {
+            res = {
+              status: true,
+              message: 'Password changed',
+            };
+          } else {
+            res = {
+              status: false,
+              message: 'Password has not been changed',
+            };
+          }
+        } else {
+          res = {
+            status: false,
+            message: 'Invalid params',
+          };
+        }
+      } else {
+        res = {
+          status: false,
+          message: verifiedToken.message,
+        };
+      }
+
+      return res;
+    },
   },
 };
+
+function verifyToken(token: string, id: string) {
+  let res;
+  const checkToken = new JWT().verify(token);
+
+  if (checkToken === MESSAGES.TOKEN_VERIFICATION_FAILED) {
+    res = {
+      status: false,
+      message: 'Token has expired',
+    };
+  } else {
+    const user = Object.values(checkToken)[0];
+    if (user.id !== id) {
+      res = {
+        status: false,
+        message: 'User ID does not match with provided ID',
+      };
+    } else {
+      res = {
+        status: true,
+        message: 'Verified token',
+      };
+    }
+  }
+  return res;
+}
 
 export default resolversEmailMutation;
