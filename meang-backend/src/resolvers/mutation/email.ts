@@ -10,8 +10,8 @@ const resolversEmailMutation: IResolvers = {
     async sendEmail(_, { mail }) {
       return new MailService().send(mail);
     },
-    async activeUserEmail(_, { id, email }) {
-      return new UserService(_, { user: { id, email } }, {}).active();
+    async activeUserEmail(_, { id, email }, context) {
+      return new UserService(_, { user: { id, email } }, context).active();
     },
     async activeUserAction(_, { id, dateOfBirth, password }, { db, token }) {
       let res = verifyToken(token, id);
