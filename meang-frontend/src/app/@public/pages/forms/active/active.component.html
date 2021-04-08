@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg"></div>
+    <div class="col-lg-6">
+      <form (ngSubmit)="add()" #activeForm="ngForm">
+        <h1>Activate user</h1>
+        <p>Introduce password and date of birth.</p>
+        <label for="dateOfBirth"><b>Date of birth</b></label>
+        <app-date-picker-legal-age
+          (dateChanged)="dateAssignment($event)"
+        ></app-date-picker-legal-age>
+        <label for="password"><b>Password</b></label>
+        <input
+          type="password"
+          placeholder="Enter Password"
+          name="password"
+          required
+          #password="ngModel"
+          [(ngModel)]="activeForm.password"
+          class="form-control"
+          [ngClass]="{
+            'is-valid': password.valid,
+            'is-invalid':
+              password.invalid && (password.dirty || password.touched)
+          }"
+        />
+        <div
+          class="alert alert-danger"
+          *ngIf="password.invalid && (password.dirty || password.touched)"
+        >
+          <div *ngIf="password.errors.required">Password is required</div>
+        </div>
+        <label for="confirmPassword"><b>Confirm Password</b></label>
+        <input
+          type="password"
+          placeholder="Repeat Password"
+          name="confirmPassword"
+          required
+          #confirmPassword="ngModel"
+          [(ngModel)]="activeForm.confirmPassword"
+          class="form-control"
+          [ngClass]="{
+            'is-valid': confirmPassword.valid,
+            'is-invalid':
+              confirmPassword.invalid &&
+              (confirmPassword.dirty || confirmPassword.touched)
+          }"
+        />
+        <div
+          class="alert alert-danger"
+          *ngIf="
+            (confirmPassword.invalid &&
+              (confirmPassword.dirty || confirmPassword.touched)) ||
+            activeForm.confirmPassword !== activeForm.password
+          "
+        >
+          <div *ngIf="confirmPassword.errors?.required">
+            Confirm Password is required
+          </div>
+          <div *ngIf="activeForm.confirmPassword !== activeForm.password">
+            Confirm Password does not match with Password
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg">
+            <button
+              type="submit"
+              class="signup-btn"
+              [disabled]="activeForm.invalid"
+            >
+              <div class="spinner-border" *ngIf="loading"></div>
+              <span *ngIf="!loading">Sign Up</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-lg"></div>
+  </div>
+</div>

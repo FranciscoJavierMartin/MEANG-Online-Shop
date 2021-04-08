@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg"></div>
+    <div class="col-lg-6">
+      <form (ngSubmit)="reset()" #forgotPasswordForm="ngForm">
+        <h2>Add your email</h2>
+        <p>We will send you an email to change it.</p>
+        <hr />
+        <div class="row">
+          <div class="col-lg">
+            <label for="email"><b>Email</b></label>
+            <input
+              type="email"
+              placeholder="Email"
+              name="email"
+              required
+              class="form-control"
+              #email="ngModel"
+              [(ngModel)]="forgotPasswordForm.email"
+              [ngClass]="{
+                'is-valid': !email.invalid,
+                'is-invalid': email.invalid && (email.dirty || email.touched)
+              }"
+              [pattern]="emailPattern"
+            />
+            <div
+              class="alert alert-danger"
+              *ngIf="email.invalid && (email.dirty || email.touched)"
+            >
+              <div *ngIf="email.errors.required">Email is required</div>
+              <div *ngIf="email.errors && email.errors.pattern">
+                Invalid email address
+              </div>
+            </div>
+            <button
+              [disabled]="!forgotPasswordForm.valid"
+              type="submit"
+              class="signup-btn"
+            >
+              Reset password
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-lg"></div>
+  </div>
+</div>

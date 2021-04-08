@@ -16,4 +16,6 @@ export interface QueryUsers {
 export interface MutationUser {
   updateUser?: ResultUser;
   blockUser?: ResultUser;
+  resetPassword?: ResultUser;
+  changePassword?: ResultUser;
 }
